@@ -2,10 +2,9 @@ const { chromium } = require("playwright");
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
-const TELEGRAM_TOKEN = "8437301675:AAEWLNGfThspSR0EaYFNiTWLS2gfAQfF20c";
-const CHAT_ID = "290605646";
-const URL =
-  "https://sae.mec.gub.uy/sae/agendarReserva/Paso1.xhtml?e=9&a=78&r=209";
+const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
+const CHAT_ID = process.env.CHAT_ID;
+const URL = process.env.URL;
 const NO_SLOTS_TEXT = "En la oficina seleccionada no hay cupos disponibles";
 
 async function sendTelegramMessage(text) {
@@ -43,6 +42,12 @@ async function checkSlots() {
     await browser.close();
   }
 }
+
+const express = require("express");
+const app = express();
+const PORT = process.env.PORT || 3000;
+app.get("/", (_req, res) => res.send("OK"));
+app.listen(PORT, () => console.log("HTTP server listening on " + PORT));
 
 // Checking every 5 minutes
 (async () => {
